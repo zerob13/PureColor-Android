@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PureColor</string>
+    <string name="title_coloritem_detail">ColorItem Detail</string>
+
+</resources>
