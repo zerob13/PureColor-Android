@@ -58,8 +58,7 @@ public class ColorItemListActivity extends FragmentActivity
             ((ColorItemListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.coloritem_list))
                     .setActivateOnItemClick(true);
-            ((ColorItemListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.coloritem_list)).setSelection(0);
+            onItemSelected(DummyContent.ITEMS.get(0).id);
         }
 
 

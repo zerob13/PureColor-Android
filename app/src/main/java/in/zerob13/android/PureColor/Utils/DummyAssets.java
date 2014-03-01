@@ -13,14 +13,14 @@ import in.zerob13.android.PureColor.R;
  */
 public class DummyAssets {
 
-    public static String getFromRaw(Context context){
+    public static String getFromRaw(Context context) {
         String result = "";
         try {
             InputStream in = context.getResources().openRawResource(R.raw.data);
             //获取文件的字节数
             int lenght = in.available();
             //创建byte数组
-            byte[]  buffer = new byte[lenght];
+            byte[] buffer = new byte[lenght];
             //将文件中的数据读到byte数组中
             in.read(buffer);
             result = EncodingUtils.getString(buffer, "utf-8");
@@ -28,5 +28,16 @@ public class DummyAssets {
             e.printStackTrace();
         }
         return result;
+    }
+
+
+    public static String getExternalStoragePath() {
+        String state = android.os.Environment.getExternalStorageState();
+        if (android.os.Environment.MEDIA_MOUNTED.equals(state)) {
+            if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
+                return android.os.Environment.getExternalStorageDirectory().getPath();
+            }
+        }
+        return null;
     }
 }
