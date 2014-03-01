@@ -1,8 +1,11 @@
-<View xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coloritem_detail"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:textSize="20sp"
+    android:text="@string/background_tips"
+    android:gravity="center"
     tools:context="in.zerob13.android.PureColor.ColorItemDetailFragment" />

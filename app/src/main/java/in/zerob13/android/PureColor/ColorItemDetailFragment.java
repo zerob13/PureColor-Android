@@ -1,5 +1,8 @@
 package in.zerob13.android.PureColor;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import in.zerob13.android.PureColor.Utils.BitmapUtils;
@@ -56,7 +60,11 @@ public class ColorItemDetailFragment extends Fragment implements View.OnLongClic
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((View) rootView.findViewById(R.id.coloritem_detail)).setBackgroundColor(Color.parseColor(mItem.hex));
+            TextView tv = ((TextView) rootView.findViewById(R.id.coloritem_detail));
+            int color = Color.parseColor(mItem.hex);
+            tv.setBackgroundColor(color);
+            int rColor = Color.rgb(255 - Color.red(color), 255 - Color.green(color), 255 - Color.blue(color));
+            tv.setTextColor(rColor);
         }
         rootView.setOnLongClickListener(this);
 
@@ -65,17 +73,27 @@ public class ColorItemDetailFragment extends Fragment implements View.OnLongClic
 
     @Override
     public boolean onLongClick(View view) {
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.save_alert_dialog_title).setMessage(R.string.save_alert_dialog_message).setPositiveButton(R.string.common_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                doGenBackground();
+            }
+        }).setNegativeButton(R.string.common_no, null).show();
+
+
+        return false;
+    }
+
+    private void doGenBackground() {
         Bitmap newbit = BitmapUtils.createBitmap(getActivity(), DummyContent.ScreenHeight, DummyContent.ScreenWidth, Color.parseColor(mItem.hex));
-        BitmapUtils.writeBitmapToFile(newbit, "/sdcard/zerob13/", mItem.hex.substring(1, mItem.hex.length()) + ".png");
+        BitmapUtils.writeBitmapToFile(newbit, "/sdcard/zerob13/wallpapers/", mItem.hex.substring(1, mItem.hex.length()) + ".png");
         BitmapUtils.setWallpaper(getActivity(), newbit);
         getView().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast toast = Toast.makeText(getActivity(), "Saved and seted " + mItem.hex, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), "Saved to /sdcard/zerob13/wallpapers/" + mItem.hex + " and seted ", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }, 100);
-
-        return false;
     }
 }

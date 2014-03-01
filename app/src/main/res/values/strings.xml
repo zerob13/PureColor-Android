@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">PureColor</string>
-    <string name="title_coloritem_detail">ColorItem Detail</string>
-
+    <string name="title_coloritem_detail">Background Color</string>
+    <string name="background_tips">Long press here to set your Wallpaper</string>
+    <string name="save_alert_dialog_title">Save and set background</string>
+    <string name="save_alert_dialog_message">Do you want to set your background as this color?</string>
+    <string name="common_ok">Yes</string>
+    <string name="common_no">No</string>
 </resources>

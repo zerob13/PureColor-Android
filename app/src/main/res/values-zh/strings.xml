@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">纯色</string>
+    <string name="title_coloritem_detail">背景色预览</string>
+    <string name="background_tips">长按这里设置背景</string>
+    <string name="save_alert_dialog_title">保存并设置该背景</string>
+    <string name="save_alert_dialog_message">要设置您的背景为这个颜色?</string>
+    <string name="common_ok">确定</string>
+    <string name="common_no">取消</string>
+</resources>
