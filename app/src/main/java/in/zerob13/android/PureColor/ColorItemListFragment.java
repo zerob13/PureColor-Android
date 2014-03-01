@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import in.zerob13.android.PureColor.controllers.ColorArrayAdapter;

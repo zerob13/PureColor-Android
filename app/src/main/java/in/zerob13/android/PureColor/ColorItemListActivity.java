@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.SeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +34,7 @@ import in.zerob13.android.PureColor.Utils.DummyContent;
  * to listen for item selections.
  */
 public class ColorItemListActivity extends FragmentActivity
-        implements ColorItemListFragment.Callbacks {
+        implements ColorItemListFragment.Callbacks, SeekBar.OnSeekBarChangeListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -39,6 +42,9 @@ public class ColorItemListActivity extends FragmentActivity
      */
     private boolean mTwoPane;
     private static String sColors;
+    private SeekBar mQuickSeeker;
+    private boolean isNeedCallSeek = true;
+    private AbsListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +61,27 @@ public class ColorItemListActivity extends FragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
+            mListView = ((ColorItemListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.coloritem_list)).getListView();
             ((ColorItemListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.coloritem_list))
                     .setActivateOnItemClick(true);
+
             onItemSelected(DummyContent.ITEMS.get(0).id);
+            //for tow-pan mode ,add a seeker to quick seek
+            initActionbar();
         }
 
 
+    }
+
+    private void initActionbar() {
+        getActionBar().setCustomView(R.layout.color_speed_slide);
+        mQuickSeeker = (SeekBar) getActionBar().getCustomView().findViewById(R.id.quick_color_seek);
+        mQuickSeeker.setOnSeekBarChangeListener(this);
+        mQuickSeeker.setMax(DummyContent.ITEMS.size() - 1);
+        mQuickSeeker.setKeyProgressIncrement(1);
+        getActionBar().setDisplayShowCustomEnabled(true);
     }
 
     private void init() {
@@ -109,7 +129,9 @@ public class ColorItemListActivity extends FragmentActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.coloritem_detail_container, fragment)
                     .commit();
-
+            if (isNeedCallSeek && mQuickSeeker != null) {
+                mQuickSeeker.setProgress(DummyContent.ITEMS.indexOf(DummyContent.ITEM_MAP.get(id)));
+            }
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
@@ -118,4 +140,31 @@ public class ColorItemListActivity extends FragmentActivity
             startActivity(detailIntent);
         }
     }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, final int i, boolean b) {
+        onItemSelected(DummyContent.ITEMS.get(i).id);
+        mListView.post(new Runnable() {
+            @Override
+            public void run() {
+                mListView.setSelection(i);
+                View v = mListView.getChildAt(i);
+                if (v != null) {
+                    v.requestFocus();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        isNeedCallSeek = false;
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        isNeedCallSeek = true;
+    }
+
 }
