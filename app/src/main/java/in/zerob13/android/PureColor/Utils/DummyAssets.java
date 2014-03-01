@@ -1,4 +1,4 @@
-package in.zerob13.android.PureColor.dummy;
+package in.zerob13.android.PureColor.Utils;
 
 import android.content.Context;
 

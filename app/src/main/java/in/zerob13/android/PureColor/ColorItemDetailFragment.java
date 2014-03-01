@@ -1,14 +1,16 @@
 package in.zerob13.android.PureColor;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import in.zerob13.android.PureColor.dummy.DummyContent;
+import in.zerob13.android.PureColor.Utils.BitmapUtils;
+import in.zerob13.android.PureColor.Utils.DummyContent;
 
 /**
  * A fragment representing a single ColorItem detail screen.
@@ -16,7 +18,7 @@ import in.zerob13.android.PureColor.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link ColorItemDetailActivity}
  * on handsets.
  */
-public class ColorItemDetailFragment extends Fragment {
+public class ColorItemDetailFragment extends Fragment implements View.OnLongClickListener {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -49,14 +51,31 @@ public class ColorItemDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_coloritem_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((View) rootView.findViewById(R.id.coloritem_detail)).setBackgroundColor(Color.parseColor(mItem.hex));
         }
+        rootView.setOnLongClickListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        Bitmap newbit = BitmapUtils.createBitmap(getActivity(), DummyContent.ScreenHeight, DummyContent.ScreenWidth, Color.parseColor(mItem.hex));
+        BitmapUtils.writeBitmapToFile(newbit, "/sdcard/zerob13/", mItem.hex.substring(1, mItem.hex.length()) + ".png");
+        BitmapUtils.setWallpaper(getActivity(), newbit);
+        getView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(getActivity(), "Saved and seted " + mItem.hex, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }, 100);
+
+        return false;
     }
 }

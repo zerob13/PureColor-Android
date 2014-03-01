@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import in.zerob13.android.PureColor.dummy.DummyContent;
+import in.zerob13.android.PureColor.controllers.ColorArrayAdapter;
+import in.zerob13.android.PureColor.Utils.DummyContent;
 
 /**
  * A list fragment representing a list of ColorItems. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link ColorItemDetailFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -70,12 +70,12 @@ public class ColorItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+//        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+//                getActivity(),
+//                android.R.layout.simple_list_item_activated_1,
+//                android.R.id.text1,
+//                DummyContent.ITEMS));
+        setListAdapter(new ColorArrayAdapter(DummyContent.ITEMS));
     }
 
     @Override
@@ -86,7 +86,11 @@ public class ColorItemListFragment extends ListFragment {
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        } else {
+            setActivatedPosition(0);
         }
+//        view.setSystemUiVisibility(view.SYSTEM_UI_FLAG_IMMERSIVE);
+
     }
 
     @Override

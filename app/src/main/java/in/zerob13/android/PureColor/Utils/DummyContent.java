@@ -1,4 +1,4 @@
-package in.zerob13.android.PureColor.dummy;
+package in.zerob13.android.PureColor.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
- * <p>
+ * <p/>
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DummyContent {
@@ -23,12 +23,9 @@ public class DummyContent {
      */
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    static {
-        // Add 3 sample items.
-        addItem(new DummyItem("col001", "#DC9FB4"));
-        addItem(new DummyItem("col002", "#E16B8C"));
-        addItem(new DummyItem("col003", "#8E354A"));
-    }
+    public static int ScreenWidth;
+    public static int ScreenHeight;
+
 
     private static void addItem(DummyItem item) {
         ITEMS.add(item);

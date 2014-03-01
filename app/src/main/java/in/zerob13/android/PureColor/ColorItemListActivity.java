@@ -3,8 +3,15 @@ package in.zerob13.android.PureColor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
-import in.zerob13.android.PureColor.dummy.DummyAssets;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import in.zerob13.android.PureColor.Utils.DummyAssets;
+import in.zerob13.android.PureColor.Utils.DummyContent;
 
 
 /**
@@ -14,11 +21,11 @@ import in.zerob13.android.PureColor.dummy.DummyAssets;
  * lead to a {@link ColorItemDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
- * <p>
+ * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link ColorItemListFragment} and the item details
  * (if present) is a {@link ColorItemDetailFragment}.
- * <p>
+ * <p/>
  * This activity also implements the required
  * {@link ColorItemListFragment.Callbacks} interface
  * to listen for item selections.
@@ -36,6 +43,7 @@ public class ColorItemListActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         setContentView(R.layout.activity_coloritem_list);
 
         if (findViewById(R.id.coloritem_detail_container) != null) {
@@ -50,10 +58,41 @@ public class ColorItemListActivity extends FragmentActivity
             ((ColorItemListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.coloritem_list))
                     .setActivateOnItemClick(true);
+            ((ColorItemListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.coloritem_list)).setSelection(0);
         }
-        sColors= DummyAssets.getFromRaw(getBaseContext());
 
-        // TODO: If exposing deep links into your app, handle intents here.
+
+    }
+
+    private void init() {
+        if (TextUtils.isEmpty(sColors)) {
+            sColors = DummyAssets.getFromRaw(getBaseContext());
+        }
+        try {
+            JSONTokener jsonP = new JSONTokener(sColors);
+            JSONObject jo = (JSONObject) jsonP.nextValue();
+            JSONArray ja = jo.optJSONArray("colors");
+            if (ja != null) {
+                int co = 0;
+                JSONObject t = ja.optJSONObject(co);
+                while (t != null) {
+                    DummyContent.DummyItem tem = new DummyContent.DummyItem(t.optString("num"), t.optString("hex"));
+                    DummyContent.ITEMS.add(tem);
+                    DummyContent.ITEM_MAP.put(tem.id, tem);
+                    co++;
+                    t = ja.optJSONObject(co);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        DummyContent.ScreenWidth = dm.widthPixels;
+        DummyContent.ScreenHeight = dm.heightPixels;
+
     }
 
     /**

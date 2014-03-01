@@ -4,7 +4,7 @@
     android:name="in.zerob13.android.PureColor.ColorItemListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
     tools:context="in.zerob13.android.PureColor.ColorItemListActivity"
-    tools:layout="@android:layout/list_content" />
+     />
