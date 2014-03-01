@@ -1,5 +1,6 @@
 PureColor-Android
 =================
+[![Build Status](https://travis-ci.org/zerob13/PureColor-Android.png)](https://travis-ci.org/zerob13/PureColor-Android)
 
 Pure color background maker for android.
 
