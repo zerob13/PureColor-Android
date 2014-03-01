@@ -45,4 +45,5 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - gradle connectedInstrumentTest
+    - echo $TRAVIS_BUILD_DIR
+    - TERM=dumb ./gradlew build bintrayUpload
