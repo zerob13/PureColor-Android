@@ -31,7 +31,7 @@ public class BitmapUtils {
     }
 
     public static void writeBitmapToFile(Bitmap src, String dirPath, String filename) {
-        FileOutputStream m_fileOutPutStream = null;
+        FileOutputStream fileOutputStream = null;
         try {
             File target = new File(dirPath);
             if (!target.exists()) {
@@ -41,14 +41,14 @@ public class BitmapUtils {
             e.printStackTrace();
         }
         try {
-            m_fileOutPutStream = new FileOutputStream(dirPath + filename);//写入的文件路径
+            fileOutputStream = new FileOutputStream(dirPath +File.separator+ filename);//写入的文件路径
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        src.compress(Bitmap.CompressFormat.PNG, 100, m_fileOutPutStream);
+        src.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
         try {
-            m_fileOutPutStream.flush();
-            m_fileOutPutStream.close();
+            fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
